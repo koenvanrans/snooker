@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <meta charset="utf-8">
+        <title>Snooker2020|Bart-Steve-Koen-Dimi</title>
+        <link rel="stylesheet" type="text/css" href="#" media="all">
+        <script type="text/javascript" src="#"></script>
+        <style>
+            * {
+                box-sizing:border-box;
+            }
+            body {
+            	font-family:Arial;
+            	background-color:rgba(0,255,0,0.1);
+            }
+            header h1 {
+                //color:rgb(166,19,29);
+                color:green;
+                text-align:center;
+            }
+            section h2 {
+                //background-color:rgb(252,199,81);
+                background-color:green;
+                //color:rgb(0,40,95);
+                color:white;
+                width:100%;
+                padding:2px 10px;
+                //font-size:30px;
+            }
+            .c-clearfix::after {
+                clear:both;
+                content:"";
+                display:table;
+            }
+            figure {
+                float:left;
+                width:25%;
+                margin:10px 0px;
+            }
+            figure img {
+                max-width:100%;
+                padding:5px 15px;
+                border-radius:50%;
+            }
+            figcaption {
+                text-align:center;
+                font-style:italic;
+                padding:5px 5px;
+                margin:0;
+            }
+            section {
+                clear:both;
+            }
+            .c-table-cont {
+            	max-width:100%;
+            	overflow:auto;
+            	margin-left:20px;
+            }
+            table {
+                border-collapse:collapse;
+                //margin-left:10px;
+            }
+            tbody tr:nth-child(odd) {
+                background-color:rgba(212,221,233,1);
+                //background-color:rgb(240,240,240);
+            }
+            tbody tr:nth-child(even) {
+            	background-color:rgba(255,255,255,1);
+            	//background-color:rgb(240,240,240);
+            }
+            th {
+                background-color:rgb(0,40,95);
+                color:white;
+            }
+            th,td {
+                padding:2px 5px;
+                text-align:center;
+                font-size:18px;
+                border:1px dotted rgba(200,200,200,1);
+            }
+            #i-table-results-tbody tr td:nth-child(-n+4) {
+                font-weight:bold;
+            }
+            .c-team-A {
+                transform:skewX(-15deg);
+            }
+            caption {
+                caption-side:bottom;
+                text-align:left;
+                transform:skewX(-15deg);
+                font-size:0.9em;
+                margin-top:0.25em;
+            }
+            footer {
+                margin-top:50px;
+            }
+        </style>
+        <script>
+function jFillTables() {
+//collection of all tbody rows (=matches) in Results table
+    var jMatchRows = document.getElementById('i-table-results-tbody').children;
+//variables for Player1
+    var jP1FramesWonTemp = 0; var jP1FramesLostTemp = 0;
+    var jP1FramesWon = 0; var jP1FramesLost = 0;
+    var jP1MatchesWon = 0; var jP1MatchesDraw = 0; var jP1MatchesLost = 0;
+    var jP1StreakWinTemp = 0; var jP1StreakNonLoseTemp = 0;
+    var jP1StreakWin = 0; var jP1StreakNonLose = 0;
+//variables for Player2
+    var jP2FramesWonTemp = 0; var jP2FramesLostTemp = 0;
+    var jP2FramesWon = 0; var jP2FramesLost = 0;
+    var jP2MatchesWon = 0; var jP2MatchesDraw = 0; var jP2MatchesLost = 0;
+    var jP2StreakWinTemp = 0; var jP2StreakNonLoseTemp = 0;
+    var jP2StreakWin = 0; var jP2StreakNonLose = 0;
+//variables for Player3
+    var jP3FramesWonTemp = 0; var jP3FramesLostTemp = 0;
+    var jP3FramesWon = 0; var jP3FramesLost = 0;
+    var jP3MatchesWon = 0; var jP3MatchesDraw = 0; var jP3MatchesLost = 0;
+    var jP3StreakWinTemp = 0; var jP3StreakNonLoseTemp = 0;
+    var jP3StreakWin = 0; var jP3StreakNonLose = 0;
+//variables for Player4
+    var jP4FramesWonTemp = 0; var jP4FramesLostTemp = 0;
+    var jP4FramesWon = 0; var jP4FramesLost = 0;
+    var jP4MatchesWon = 0; var jP4MatchesDraw = 0; var jP4MatchesLost = 0;
+    var jP4StreakWinTemp = 0; var jP4StreakNonLoseTemp = 0;
+    var jP4StreakWin = 0; var jP4StreakNonLose = 0;
+//variable for nr of frames played per match
+    var jFramesPlayedTemp = 0;
+//variable for total nr of frames played
+    var jFramesPlayed = 0;
+//loop through each match (= each row of Results table) and update stats variables accordingly
+    for (var i = 0 ; i < jMatchRows.length; i++) {
+        //get nr of frames won for each player in the match
+        jP1FramesWonTemp = parseInt(jMatchRows[i].children[0].innerHTML);
+        jP2FramesWonTemp = parseInt(jMatchRows[i].children[1].innerHTML);
+        jP3FramesWonTemp = parseInt(jMatchRows[i].children[2].innerHTML);
+        jP4FramesWonTemp = parseInt(jMatchRows[i].children[3].innerHTML);
+        //update total nr of frames won for each player (= across all matches)
+        jP1FramesWon = jP1FramesWon + jP1FramesWonTemp;
+        jP2FramesWon = jP2FramesWon + jP2FramesWonTemp;
+        jP3FramesWon = jP3FramesWon + jP3FramesWonTemp;
+        jP4FramesWon = jP4FramesWon + jP4FramesWonTemp;
+        //calculate nr of frames played in the match
+            //this is the sum of frames won by each player divided by two
+            //(players play in pairs ; pairs do not change within a match)
+        jFramesPlayedTemp = (jP1FramesWonTemp + jP2FramesWonTemp + jP3FramesWonTemp + jP4FramesWonTemp) / 2;
+        //get nr of frames lost for each player in the match
+            //this is nr of frames played minus nr of frames won
+        jP1FramesLostTemp = jFramesPlayedTemp - jP1FramesWonTemp;
+        jP2FramesLostTemp = jFramesPlayedTemp - jP2FramesWonTemp;
+        jP3FramesLostTemp = jFramesPlayedTemp - jP3FramesWonTemp;
+        jP4FramesLostTemp = jFramesPlayedTemp - jP4FramesWonTemp;
+        //update total nr of frames lost for each player (= across all matches)
+        jP1FramesLost = jP1FramesLost + jP1FramesLostTemp;
+        jP2FramesLost = jP2FramesLost + jP2FramesLostTemp;
+        jP3FramesLost = jP3FramesLost + jP3FramesLostTemp;
+        jP4FramesLost = jP4FramesLost + jP4FramesLostTemp;
+        //update total nr of frames played (across all matches)
+        jFramesPlayed = jFramesPlayed + jFramesPlayedTemp;
+        //calcuate for each player whether match is a win, draw or loss, and update accordingly
+            //by comparing nr of frames won with nr of frames played:
+                //if player wins more than half, it's a win
+                //if player wins exactly half, it's a draw
+                //if player wins less than half, it's a loss
+            //update of style:
+                //for a win, put value in blue
+                //for a draw, put value in black
+                //for a loss, put value in red
+            //update of stats variables:
+                //update total wins, draws, losses
+                //update the streaks
+            //update of temp values for streaks
+                //reset temp values for streaks to 0 if necessary
+        //calculation and update for Player1
+        if (jP1FramesWonTemp > jFramesPlayedTemp/2) {
+            jMatchRows[i].children[0].style.color = 'blue';
+            jP1MatchesWon = jP1MatchesWon + 1;
+            jP1StreakWinTemp = jP1StreakWinTemp + 1;
+            if (jP1StreakWinTemp > jP1StreakWin) {
+                jP1StreakWin = jP1StreakWinTemp;
+            }
+            jP1StreakNonLoseTemp = jP1StreakNonLoseTemp + 1;
+            if (jP1StreakNonLoseTemp > jP1StreakNonLose) {
+                jP1StreakNonLose = jP1StreakNonLoseTemp;
+            }
+        }
+        if (jP1FramesWonTemp == jFramesPlayedTemp/2) {
+            jMatchRows[i].children[0].style.color = 'black';
+            jP1MatchesDraw = jP1MatchesDraw + 1;
+            jP1StreakWinTemp = 0;
+            jP1StreakNonLoseTemp = jP1StreakNonLoseTemp + 1;
+            if (jP1StreakNonLoseTemp > jP1StreakNonLose) {
+                jP1StreakNonLose = jP1StreakNonLoseTemp;
+            }
+        }
+        if (jP1FramesWonTemp < jFramesPlayedTemp/2) {
+            jMatchRows[i].children[0].style.color = 'red';
+            jP1MatchesLost = jP1MatchesLost + 1;
+            jP1StreakWinTemp = 0;
+            jP1StreakNonLoseTemp = 0;
+        }
+        //calculation and update for Player2
+        if (jP2FramesWonTemp > jFramesPlayedTemp/2) {
+            jMatchRows[i].children[1].style.color = 'blue';
+            jP2MatchesWon = jP2MatchesWon + 1;
+            jP2StreakWinTemp = jP2StreakWinTemp + 1;
+            if (jP2StreakWinTemp > jP2StreakWin) {
+                jP2StreakWin = jP2StreakWinTemp;
+            }
+            jP2StreakNonLoseTemp = jP2StreakNonLoseTemp + 1;
+            if (jP2StreakNonLoseTemp > jP2StreakNonLose) {
+                jP2StreakNonLose = jP2StreakNonLoseTemp;
+            }
+        }
+        if (jP2FramesWonTemp == jFramesPlayedTemp/2) {
+            jMatchRows[i].children[1].style.color = 'black';
+            jP2MatchesDraw = jP2MatchesDraw + 1;
+            jP2StreakWinTemp = 0;
+            jP2StreakNonLoseTemp = jP2StreakNonLoseTemp + 1;
+            if (jP2StreakNonLoseTemp > jP2StreakNonLose) {
+                jP2StreakNonLose = jP2StreakNonLoseTemp;
+            }
+        }
+        if (jP2FramesWonTemp < jFramesPlayedTemp/2) {
+            jMatchRows[i].children[1].style.color = 'red';
+            jP2MatchesLost = jP2MatchesLost + 1;
+            jP2StreakWinTemp = 0;
+            jP2StreakNonLoseTemp = 0;
+        }
+        //calculation and update for Player3
+        if (jP3FramesWonTemp > jFramesPlayedTemp/2) {
+            jMatchRows[i].children[2].style.color = 'blue';
+            jP3MatchesWon = jP3MatchesWon + 1;
+            jP3StreakWinTemp = jP3StreakWinTemp + 1;
+            if (jP3StreakWinTemp > jP3StreakWin) {
+                jP3StreakWin = jP3StreakWinTemp;
+            }
+            jP3StreakNonLoseTemp = jP3StreakNonLoseTemp + 1;
+            if (jP3StreakNonLoseTemp > jP3StreakNonLose) {
+                jP3StreakNonLose = jP3StreakNonLoseTemp;
+            }
+        }
+        if (jP3FramesWonTemp == jFramesPlayedTemp/2) {
+            jMatchRows[i].children[2].style.color = 'black';
+            jP3MatchesDraw = jP3MatchesDraw + 1;
+            jP3StreakWinTemp = 0;
+            jP3StreakNonLoseTemp = jP3StreakNonLoseTemp + 1;
+            if (jP3StreakNonLoseTemp > jP3StreakNonLose) {
+                jP3StreakNonLose = jP3StreakNonLoseTemp;
+            }
+        }
+        if (jP3FramesWonTemp < jFramesPlayedTemp/2) {
+            jMatchRows[i].children[2].style.color = 'red';
+            jP3MatchesLost = jP3MatchesLost + 1;
+            jP3StreakWinTemp = 0;
+            jP3StreakNonLoseTemp = 0;
+        }
+        //calculation and update for Player4
+        if (jP4FramesWonTemp > jFramesPlayedTemp/2) {
+            jMatchRows[i].children[3].style.color = 'blue';
+            jP4MatchesWon = jP4MatchesWon + 1;
+            jP4StreakWinTemp = jP4StreakWinTemp + 1;
+            if (jP4StreakWinTemp > jP4StreakWin) {
+                jP4StreakWin = jP4StreakWinTemp;
+            }
+            jP4StreakNonLoseTemp = jP4StreakNonLoseTemp + 1;
+            if (jP4StreakNonLoseTemp > jP4StreakNonLose) {
+                jP4StreakNonLose = jP4StreakNonLoseTemp;
+            }
+        }
+        if (jP4FramesWonTemp == jFramesPlayedTemp/2) {
+            jMatchRows[i].children[3].style.color = 'black';
+            jP4MatchesDraw = jP4MatchesDraw + 1;
+            jP4StreakWinTemp = 0;
+            jP4StreakNonLoseTemp = jP4StreakNonLoseTemp + 1;
+            if (jP4StreakNonLoseTemp > jP4StreakNonLose) {
+                jP4StreakNonLose = jP4StreakNonLoseTemp;
+            }
+        }
+        if (jP4FramesWonTemp < jFramesPlayedTemp/2) {
+            jMatchRows[i].children[3].style.color = 'red';
+            jP4MatchesLost = jP4MatchesLost + 1;
+            jP4StreakWinTemp = 0;
+            jP4StreakNonLoseTemp = 0;
+        }
+    }
+//populate Stats table
+    //variables for player rows
+    var jP1StatsRow = document.getElementById('i-table-stats-tbody').children[0];
+    var jP2StatsRow = document.getElementById('i-table-stats-tbody').children[1];
+    var jP3StatsRow = document.getElementById('i-table-stats-tbody').children[2];
+    var jP4StatsRow = document.getElementById('i-table-stats-tbody').children[3];
+    //populate Stats table for Player1
+    jP1StatsRow.children[1].innerHTML = jP1MatchesWon;
+    jP1StatsRow.children[2].innerHTML = jP1MatchesLost;
+    jP1StatsRow.children[3].innerHTML = jP1MatchesDraw;
+    jP1StatsRow.children[4].innerHTML = jP1StreakWin;
+    jP1StatsRow.children[5].innerHTML = jP1StreakNonLose;
+    jP1StatsRow.children[6].innerHTML = jP1FramesWon;
+    jP1StatsRow.children[7].innerHTML = jP1FramesLost;
+    //populate Stats table for Player2
+    jP2StatsRow.children[1].innerHTML = jP2MatchesWon;
+    jP2StatsRow.children[2].innerHTML = jP2MatchesLost;
+    jP2StatsRow.children[3].innerHTML = jP2MatchesDraw;
+    jP2StatsRow.children[4].innerHTML = jP2StreakWin;
+    jP2StatsRow.children[5].innerHTML = jP2StreakNonLose;
+    jP2StatsRow.children[6].innerHTML = jP2FramesWon;
+    jP2StatsRow.children[7].innerHTML = jP2FramesLost;
+    //populate Stats table for Player2
+    jP3StatsRow.children[1].innerHTML = jP3MatchesWon;
+    jP3StatsRow.children[2].innerHTML = jP3MatchesLost;
+    jP3StatsRow.children[3].innerHTML = jP3MatchesDraw;
+    jP3StatsRow.children[4].innerHTML = jP3StreakWin;
+    jP3StatsRow.children[5].innerHTML = jP3StreakNonLose;
+    jP3StatsRow.children[6].innerHTML = jP3FramesWon;
+    jP3StatsRow.children[7].innerHTML = jP3FramesLost;
+    //populate Stats table for Player4
+    jP4StatsRow.children[1].innerHTML = jP4MatchesWon;
+    jP4StatsRow.children[2].innerHTML = jP4MatchesLost;
+    jP4StatsRow.children[3].innerHTML = jP4MatchesDraw;
+    jP4StatsRow.children[4].innerHTML = jP4StreakWin;
+    jP4StatsRow.children[5].innerHTML = jP4StreakNonLose;
+    jP4StatsRow.children[6].innerHTML = jP4FramesWon;
+    jP4StatsRow.children[7].innerHTML = jP4FramesLost;
+}
+        </script>
+    </head>
+    <body onload="jFillTables()">
+
+		<header>
+			<h1>Snooker Masters 2020</h1>
+			<!--img src="" alt=""-->
+		</header>
+
+
+
+		<section id="i-players" class="c-clear-fix">
+			<h2>Players</h2>
+			<div class="c-clearfix">
+				<figure id="i-player1" class="c-player">
+					<img class="c-player" id="i-player-1" src="snooker_Bart.jpg" alt="">
+					<figcaption>Bart</figcaption>
+				</figure>
+				<figure id="i-player2" class="c-player">
+					<img class="c-player" id="i-player-2"  src="snooker_Steve.jpg" alt="">
+					<figcaption>Steve</figcaption>
+				</figure>
+				<figure id="i-player3" class="c-player">
+					<img class="c-player" id="i-player-3" src="snooker_Koen.jpg" alt="">
+					<figcaption>Koen</figcaption>
+				</figure>
+				<figure id="i-player4" class="c-player">
+					<img class="c-player" id="i-player-4"  src="snooker_Dimi.jpg" alt="">
+					<figcaption>Dimi</figcaption>
+				</figure>
+			</div>
+		</section><!--players-->
+
+		<section id="i-results">
+			<h2>Results</h2>
+			<div class="c-table-cont">
+				<table id="i-table-results">
+                    <caption>italic = team A = first frame break-off</caption>
+					<thead>
+						<tr>
+	                        <th>Bart</th>
+	                        <th>Steve</th>
+							<th>Koen</th>
+							<th>Dimi</th>
+							<th>Day</th>
+							<th>Date</th>
+							<th>Venue</th>
+							<th>City</th>
+						</tr>
+					</thead>
+					<tbody id="i-table-results-tbody">
+						<tr>
+							<td class="c-team-B">2</td>
+							<td class="c-team-A">2</td>
+							<td class="c-team-B">2</td>
+							<td class="c-team-A">2</td>
+							<td>Thu</td><td>02/01</td><td>B'ham</td><td>Affl</td>
+						</tr>
+						<tr>
+							<td class="c-team-B">0</td>
+							<td class="c-team-A">4</td>
+							<td class="c-team-A">4</td>
+							<td class="c-team-B">0</td>
+							<td>Thu</td><td>09/01</td><td>B'ham</td><td>Affl</td>
+						</tr>
+						<tr>
+							<td class="c-team-A">2</td>
+							<td class="c-team-A">2</td>
+							<td class="c-team-B">2</td>
+							<td class="c-team-B">2</td>
+							<td>Thu</td><td>16/01</td><td>B'ham</td><td>Affl</td>
+						</tr>
+					</tbody>
+                    <tfoot></tfoot>
+				</table>
+			</div>
+		</section><!--results-->
+
+		<section id="i-stats">
+			<h2>Stats</h2>
+			<div class="c-table-cont">
+				<table id="i-table-stats">
+					<thead>
+						<tr>
+							<th rowspan="2">Player</th>
+							<th colspan="3">Matches</th>
+							<th colspan="2">Streaks</th>
+							<th colspan="2">Frames</th>
+						</tr>
+						<tr>
+							<th>+</th>
+							<th>-</th>
+							<th>=</th>
+							<th>+</th>
+							<th>+/=</th>
+							<th>+</th>
+							<th>-</th>
+						</tr>
+					</thead>
+					<tbody id="i-table-stats-tbody">
+						<tr id="i-table-stats-tr-P1">
+							<td>Bart</td>
+							<td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td>
+						</tr>
+						<tr id="i-table-stats-tr-P2">
+							<td>Steve</td>
+							<td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td>
+						</tr>
+						<tr id="i-table-stats-tr-P3">
+							<td>Koen</td>
+							<td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td>
+						</tr>
+						<tr id="i-table-stats-tr-P4">
+							<td>Dimi</td>
+							<td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td><td>TBD</td>
+						</tr>
+					</tbody>
+					<tfoot></tfoot>
+				</table>
+			</div>
+		</section><!--stats-->
+
+
+
+        <footer>
+            <address>
+                <small>by Koen Van Ransbeeck</small>
+            </address>
+        </footer>
+    </body>
+</html>
