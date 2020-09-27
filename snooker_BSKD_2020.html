@@ -102,6 +102,15 @@
             footer {
                 margin-top:50px;
             }
+            .c-title::before {
+                content:'\25be';
+            }
+            .c-title-collapse::before {
+                content:'\25b8';
+            }
+            .c-hide {
+                display:none;
+            }
         </style>
         <script>
 function jFillTables() {
@@ -330,10 +339,19 @@ function jFillTables() {
     jP4StatsRow.children[6].innerHTML = jP4FramesWon;
     jP4StatsRow.children[7].innerHTML = jP4FramesLost;
 }
+function jToggleCollapseLoop() {
+    var jSectionTitles = document.getElementsByTagName('h2');
+    for (var i = 0 ; i < jSectionTitles.length ; i++) {
+        jSectionTitles[i].onclick = jToggleCollapse;
+    }
+}
+function jToggleCollapse() {
+    this.classList.toggle('c-title-collapse');
+    this.nextElementSibling.classList.toggle('c-hide');
+}
         </script>
     </head>
-    <body onload="jFillTables()">
-
+    <body onload="jFillTables();jToggleCollapseLoop();">
 		<header>
 			<h1>Snooker Masters 2020</h1>
 			<!--img src="" alt=""-->
@@ -342,7 +360,7 @@ function jFillTables() {
 
 
 		<section id="i-players" class="c-clear-fix">
-			<h2>Players</h2>
+			<h2 class="c-title">Players</h2>
 			<div class="c-clearfix">
 				<figure id="i-player1" class="c-player">
 					<img class="c-player" id="i-player-1" src="snooker_Bart.jpg" alt="">
@@ -364,7 +382,7 @@ function jFillTables() {
 		</section><!--players-->
 
 		<section id="i-results">
-			<h2>Results</h2>
+			<h2 class="c-title">Results</h2>
 			<div class="c-table-cont">
 				<table id="i-table-results">
                     			<caption><u>underlined</u> = team A = first frame break-off</caption>
@@ -514,7 +532,7 @@ function jFillTables() {
 		</section><!--results-->
 
 		<section id="i-stats">
-			<h2>Stats</h2>
+			<h2 class="c-title">Stats</h2>
 			<div class="c-table-cont">
 				<table id="i-table-stats">
 					<thead>
